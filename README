@@ -18,12 +18,12 @@ License along with this library; If not, see <http://www.gnu.org/licenses/>.
 R.Lichen is a R package for visualizing networks in the web browser.
 
 Basic useage is:
-bionetwork(adjList,list( center="RTK", height=height, width=width,padding=80,layout_data=googleDataTable(layoutdata)))
+bionetwork(adjList,list(height=height, width=width,padding=80 ... additional options))
 
 To visualize a graphNEL n:
 adjList = matrix(unlist(strsplit(edgeNames(n),"~")),ncol=2,byrow=TRUE)
 adjList = cbind(adjList,TRUE)
-bionetwork(adjList,list(layout="extendedForceDirected", continuousUpdates=TRUE, nodeClusters=googleDataTable(clusterMat), height=height, width=width,padding=80))
+bionetwork(adjList,list(layout="extendedForceDirected", height=height, width=width,padding=80))
 
 It is in a pre release state, please see test.R, gbmbase.R, stresstest.R for 
 examples of its use and http://github.com/ryanbressler/Lichen for 
