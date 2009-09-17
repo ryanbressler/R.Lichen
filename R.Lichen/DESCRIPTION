@@ -1,0 +1,10 @@
+Package: R.Lichen
+Version: 0.0
+Date: 2009-08-01
+Title: R.Lichen
+Author: Ryan Bressler <rbressler@systemsbiology.org>
+Maintainer: Ryan Bressler <rbressler@systemsbiology.org>
+Depends: R (>= 2.9), R.rsp, rjson, Rpad
+Description: TODO
+License: GPL (version 2 or later)
+
