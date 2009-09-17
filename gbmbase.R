@@ -3,10 +3,7 @@ setwd("~/Documents/code/R.Lichen")
 require(graph)
 load("gbmnetwork")
 
-
 require(R.Lichen)
-
-
 
 shapes = Object()
 shapes$protein = "CIRCLE"
