@@ -23,6 +23,7 @@ bionetwork(adjList,list(height=height, width=width,padding=80 ... additional opt
 To visualize a graphNEL n:
 adjList = matrix(unlist(strsplit(edgeNames(n),"~")),ncol=2,byrow=TRUE)
 adjList = cbind(adjList,TRUE)
+colnames(adjList) = c("interactor1","interactor2","directed")
 bionetwork(adjList,list(layout="extendedForceDirected", height=height, width=width,padding=80))
 
 It is in a pre release state, please see test.R, gbmbase.R, stresstest.R for 
