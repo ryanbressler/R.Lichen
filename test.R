@@ -58,5 +58,6 @@ for(ii in 2:length(collabels))
 }
 
 
-
+adjList=cbind(1:nrow(adjList),adjList)
+colnames(adjList)=c("edge_id","interactor1","interactor2")
 bionetwork(adjList,list(layout="extendedForceDirected", continuousUpdates=TRUE, nodeClusters=googleDataTable(clusterMat), height=height, width=width,padding=80))

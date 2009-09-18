@@ -11,7 +11,7 @@ bionetwork=function(adjlist,optionshash=list())
 
 	rootPath <- system.file("rsp", package="R.Lichen")
 	HttpDaemon$optionsJSON = toJSON(optionshash)
-	HttpDaemon$adjlist=adjlist
+	HttpDaemon$adjlist=toJSON(googleDataTable(adjlist))
 	
 	
 	#dir.create("bionetworkoutput")

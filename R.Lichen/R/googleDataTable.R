@@ -17,7 +17,7 @@ googleDataTable = function(matrixWithColNames)
 		colvals=list()
 		for (colcount in 1:ncols)
 		{
-			colvals[[length(colvals)+1]]=list(v=matrixWithColNames[rowcount,colcount])
+			colvals[[length(colvals)+1]]=list(v=matrixWithColNames[[rowcount,colcount]])
 		}
 		
 		dataList$rows[[length(dataList$rows)+1]]=list(c=colvals)

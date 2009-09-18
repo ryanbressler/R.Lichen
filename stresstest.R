@@ -6,17 +6,18 @@ require(R.Lichen)
 
 
 
-clusterSizes=c(500)
-numinteractions=500
+clusterSizes=c(100)
+numinteractions=600
 nodeList=1:sum(clusterSizes)
 
 #create an adjacensy list of the form:
-#     [,1] [,2]
-#[1,]    "interactor1"    "interactor2"
-#[2,]    "interactor3"    "interactor4"
-#[3,]    "interactor1"    "interactor3"
+#     [,1] [,2] [,3]
+#[1,] "edge1"   "interactor1"    "interactor2"
+#[2,] "edge2"   "interactor3"    "interactor4"
+#[3,] "edge3"   "interactor1"    "interactor3"
 #			...
 adjList=matrix(sample(nodeList,2*numinteractions,replace=TRUE),numinteractions)
+
 
 #		create a cluster membership matrix with column names of the form"
 #     NodeID 	cluster 1	cluster 2	cluster 3
@@ -58,5 +59,6 @@ for(ii in 2:length(collabels))
 }
 
 
+adjList=cbind(1:nrow(adjList),adjList)
 
 bionetwork(adjList,list(layout="radialTree", height=height, width=width,padding=80))

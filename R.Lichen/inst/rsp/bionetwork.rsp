@@ -22,24 +22,7 @@ nrows = dim(adjlist)[1]
 	google.setOnLoadCallback(drawChart); // Set callback to run when API is loaded
 	
 function drawChart() {
-		data = new google.visualization.DataTable();
-		data.addColumn('string', 'interactor1');
-		data.addColumn('string', 'interactor2');
-		//data.addColumn('string', 'sources');
-		data.addColumn('string', 'directed');
-		data.addRows(<%=nrows%>);
-		<% dirindex=which(colnames(adjlist)=="directed") %>
-		<% for (count in 1:nrows) { %>
-		data.setValue(<%=(count-1)%>, 0, '<%=adjlist[count,1]%>');
-		data.setValue(<%=(count-1)%>, 1, '<%=adjlist[count,2]%>');
-		data.setFormattedValue(<%=(count-1)%>, 0, '<%=adjlist[count,1]%>');
-		data.setFormattedValue(<%=(count-1)%>, 1, '<%=adjlist[count,2]%>');
-		<% if(length(dirindex)) { %>
-		data.setValue(<%=(count-1)%>,2,'<%=tolower(adjlist[count,dirindex])%>');
-		<% } %>
-		
-		<% } %>
-		data.insertColumn(0,"number");
+		data = new google.visualization.DataTable(<%=adjlist%>,.6);
 	 
 
        	networkvis = new org.systemsbiology.visualization.BioNetwork(document.getElementById('visContainer'));
