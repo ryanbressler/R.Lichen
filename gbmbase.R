@@ -7,7 +7,7 @@ require(R.Lichen)
 
 shapes = Object()
 shapes$protein = "CIRCLE"
-shapes$famly = "SQUARE"
+shapes$family = "SQUARE"
 shapes$complex = "TRIANGLE_UP"
 shapes$lipid = "DIAMOND"
 
@@ -19,22 +19,25 @@ arrowtype$contains = "NONE"
 arrowtype$includes = "NONE"
 
 edgecolor = Object()
-edgecolor$inhibits = "0xffff0000"
-edgecolor$leads_to = "0xff0000ff"
-edgecolor$activates = "0xff00ff00"
-edgecolor$contains = "0xff000000"
-edgecolor$includes = "0xff000000"
+edgecolor$inhibits = "0x66ff0000"
+edgecolor$leads_to = "0x660000ff"
+edgecolor$activates = "0x6600ff00"
+edgecolor$contains = "0x66000000"
+edgecolor$includes = "0x66000000"
 
 
 nodelist = nodes(n)
 layoutdata = cbind(nodelist,"")
+layoutdata = cbind(layoutdata,".8")
 rownames(layoutdata)=nodelist
-colnames(layoutdata)=c("nodeId","shape")
+colnames(layoutdata)=c("nodeId","shape","size")
 for(node in nodelist)
 {
 	shape=shapes[[(nodeData(n,node,"Type"))[[node]]]]
 	if(!is.null(shape))
 		layoutdata[node,"shape"]=shape
+	if(nodeData(n,node,"Type")[[1]]=="process")
+		layoutdata[node,"size"]=.01
 	
 	
 }
@@ -57,8 +60,10 @@ for(i in 1:length(edgeNames(n)))
 	interactiontype=as.character(unlist(edgeData(n,adjList[i,2],adjList[i,3],"interaction")))
 	adjList[i,5:6] = c(edgecolor[[interactiontype]],arrowtype[[interactiontype]])
 }
+adjList = gsub("_"," ",adjList)
+layoutdata = gsub("_"," ",layoutdata)
 
-height=700 
-width=1000
+height=800
+width=933
 
-bionetwork(adjList,list( height=height, width=width,padding=80,layout_data=googleDataTable(layoutdata)))
+bionetwork(adjList,list(center="FOXO",radial_labels=TRUE, layout_radialTree_startRadiusFraction=".05", layout="radialTree", height=height, width=width,padding=0,layout_data=googleDataTable(layoutdata)))
