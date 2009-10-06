@@ -45,6 +45,9 @@ rownames(layoutdata)=nodelist
 colnames(layoutdata)=c("nodeId","shape","size")
 entrez=nodeData(n,nodes(n),"EntrezGeneID")
 
+entrezcv=c()
+otheridscv=c()
+
 for(node in nodelist)
 {
 	shape=shapes[[(nodeData(n,node,"Type"))[[node]]]]
@@ -57,27 +60,35 @@ for(node in nodelist)
 		linklist="start"
 		for(target in edges(n)[[node]])
 		{
-			if(edgeData(n,node,target,"edgeType")=="contains")
-			linklist=paste(linklist,nodeData(n,target,"EntrezGeneID"),sep=",")
+			if(edgeData(n,node,target,"edgeType")=="contains" && ! is.na(nodeData(n,target,"EntrezGeneID")))
+			{
+			 linklist=paste(linklist,nodeData(n,target,"EntrezGeneID"),sep=",")
+			 entrezcv=c(entrezcv,nodeData(n,target,"EntrezGeneID"))
+			}
 		}
 		linklist = sub("start,","",linklist)
-		linklist = paste("/page/DossierView/display/gene_id/",linklist,sep="")
-		entrez[[node]]=linklist
+		if(linklist!="start")
+		{
+			linklist = paste("/page/DossierView/display/gene_id/",linklist,sep="")
+			entrez[[node]]=linklist
+		}
 	}
 	if(nodeData(n,node,"Type")[[1]]=="protein")
 	{
 		if(is.na(nodeData(n,target,"EntrezGeneID")))
 		{
 			entrez[[node]]=paste("/page/Search/display/?search=",node,sep="")
+			otheridscv=c(otheridscv,node)
 		}
 		else
 		{
 			entrez[[node]]=paste("/page/Overview/display/gene_id/",nodeData(n,node,"EntrezGeneID"),sep="")
+			entrezcv=c(entrezcv,nodeData(n,node,"EntrezGeneID"))
 		}
 	}
 	if(nodeData(n,node,"Type")[[1]]=="lipid")
 	{
-		entrez[[node]]=paste("/page/Search/display/?search=",node,sep="")
+		#entrez[[node]]=paste("/page/Search/display/?search=",node,sep="")
 	}
 	
 	
@@ -104,10 +115,63 @@ for(i in 1:length(edgeNames(n)))
 }
 adjList = gsub("_"," ",adjList)
 layoutdata[,1] = gsub("_"," ",layoutdata[,1])
-#layoutdata = gsub("TRIANGLE UP","TRIANGLE_UP",layoutdata)
+
+adjList = gsub("G1 S PROGRESSION","G1/S PROGRESSION",adjList)
+layoutdata[,1] = gsub("G1 S PROGRESSION","G1/S PROGRESSION",layoutdata[,1])
+
+adjList = gsub("G2 M ARREST","G2/M ARREST",adjList)
+layoutdata[,1] = gsub("G2 M ARREST","G2/M ARREST",layoutdata[,1])
+
+#hand curated links
+entrez$`EGFR-family`= "/page/DossierView/display/gene_id/1956,2064,2065"
+entrez$`CCND-CDK4-complex`="/page/DossierView/display/gene_id/595,894,1019"
+entrez$PIK3R2= "/page/Overview/display/gene_id/5296"
+entrez$AKT= "/page/DossierView/display/gene_id/207,208,10000"
+entrez$AKT2= "/page/Overview/display/gene_id/208"
+entrez$RAF= "/page/DossierView/display/gene_id/369,673,5894"
+entrez$RAF1= "/page/Overview/display/gene_id/5894"
+entrez$ATM= "/page/Overview/display/gene_id/472"
+entrez$PIK3C2B= "/page/Overview/display/gene_id/5287"
+entrez$`PI3K-class2`= "/page/DossierView/display/gene_id/5287,5286,5288"
+entrez$RTK= "/page/DossierView/display/gene_id/3480,5156,5159,1956,2064,2065,2260,2263,4233"
+entrez$GRB2= "/page/Overview/display/gene_id/2885"
+entrez$MDM2= "/page/Overview/display/gene_id/4193"
+entrez$PIK3R1= "/page/Overview/display/gene_id/5295"
+entrez$PIK3CB= "/page/Overview/display/gene_id/5291"
+entrez$EP300= "/page/Overview/display/gene_id/2033"
+entrez$TP53= "/page/Overview/display/gene_id/7157"
+entrez$FOXO= "/page/DossierView/display/gene_id/2308,2309,4303"
+entrez$PKC= "/page/DossierView/display/gene_id/5590,5588,5583,5582,5580,5584,5579,5578"
+entrez$INK4= "/page/DossierView/display/gene_id/1029,1031,1030"
+entrez$CDKN2B= "/page/Overview/display/gene_id/1030"
+entrez$FGFR= "/page/DossierView/display/gene_id/2260,2263"
+entrez$`CCND-CDK6-complex`= "/page/DossierView/display/gene_id/595,894,1021"
+entrez$CDKN1B= "/page/Overview/display/gene_id/1027"
+entrez$CENTG1= "/page/Overview/display/gene_id/116986"
+entrez$PIK3CD= "/page/Overview/display/gene_id/5293"
+entrez$BRCA2= "/page/Overview/display/gene_id/675"
+entrez$PDGFR= "/page/DossierView/display/gene_id/5156,5159"
+entrez$RAS= "/page/DossierView/display/gene_id/4893,3845,3265"
+entrez$FGFR1= "/page/Overview/display/gene_id/2260"
+entrez$HRAS= "/page/Overview/display/gene_id/3265"
+entrez$PIK3CG= "/page/Overview/display/gene_id/5294"
+entrez$SRC= "/page/Overview/display/gene_id/6714"
+entrez$PTEN= "/page/Overview/display/gene_id/5728"
+entrez$PDPK1= "/page/Overview/display/gene_id/5170"
+entrez$CDK2= "/page/Overview/display/gene_id/1017"
+entrez$FOXO3= "/page/Overview/display/gene_id/2309"
+entrez$E2F1= "/page/Overview/display/gene_id/1869"
+entrez$NF1= "/page/Overview/display/gene_id/4763"
+entrez$CDKN2C= "/page/Overview/display/gene_id/1031"
+entrez$AKT3= "/page/Overview/display/gene_id/10000"
+entrez$PIK3C2G= "/page/Overview/display/gene_id/5288"
+entrez$PRKCQ= "/page/Overview/display/gene_id/5588"
+entrez$PRKCZ= "/page/Overview/display/gene_id/5590"
+entrez$KRAS= "/page/Overview/display/gene_id/3845"
+entrez$PRKCG= "/page/Overview/display/gene_id/5582"
 jsEnt=toJSON(entrez)
 jsEnt=gsub("NA_character_","\"\"",jsEnt)
-jsEnt=gsub("TRIANGLE UP","TRIANGLE_UP",jsEnt)
+#jsEnt=gsub("TRIANGLE UP","TRIANGLE_UP",jsEnt)
 
 height=800
 width=840
