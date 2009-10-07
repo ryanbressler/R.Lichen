@@ -1,4 +1,4 @@
-setwd("~/Documents/code/R.Lichen")
+setwd("~/Code/R.Lichen")
 
 require(graph)
 load("gbmnetwork")
@@ -177,4 +177,4 @@ height=800
 width=840
 
 
-bionetwork(adjList,list(center="SPRY2",radial_labels=TRUE,node_tooltips=TRUE,legend=TRUE,legend_values=leg, layout_radialTree_startRadiusFraction=".05", layout="radialTree", height=height, width=width,padding=0,layout_data=googleDataTable(layoutdata)))
+bionetwork(adjList,list(center="SPRY2",node_labels_radial=TRUE,node_tooltips=TRUE,legend=leg, layout_radialTree_startRadiusFraction=".05", layout="radialTree", height=height, width=width,padding=0,layout_data=googleDataTable(layoutdata)))
