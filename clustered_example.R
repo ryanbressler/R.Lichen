@@ -8,7 +8,8 @@ require(R.Lichen)
 
 clusterSizes=c(3,5,8,13)
 numinteractions=16
-nodeList=1:sum(clusterSizes)
+nodecount = sum(clusterSizes)
+nodeList=1:nodecount
 
 #create an adjacensy list of the form:
 #     [,1] [,2]
@@ -42,22 +43,19 @@ for(clustersize in clusterSizes)
 
 colnames(clusterMat)=collabels
 
-# create a vector of cluster positions of the form
-# list(list(x=CLUSTER1X,y=CLUSTER1Y),
-# list(x=CLUSTER2X,y=CLUSTER2Y),
-#  ...)
+shapes = c("CIRCLE","SQUARE","TRIANGLE_UP","DIAMOND")
+layoutdata = cbind(nodeList,sample(shapes,nodecount,replace=TRUE))
+layoutdata = cbind(layoutdata,round(runif(nodecount,.5,2),2))
 
 
+rownames(layoutdata)=nodeList
+colnames(layoutdata)=c("nodeId","shape","size")
 
 height=400 
 width=600
-clusterPosition = list(list(x=runif(1)*width,y=runif(1)*height))
-for(ii in 2:length(collabels))
-{
-	clusterPosition[[ii]] = list(x=runif(1)*width,y=runif(1)*height)
-}
+
 
 
 adjList=cbind(1:nrow(adjList),adjList)
 colnames(adjList)=c("edge_id","interactor1","interactor2")
-bionetwork(adjList,list(layout="extendedForceDirected", continuousUpdates=TRUE, nodeClusters=googleDataTable(clusterMat), height=height, width=width,padding=80))
+bionetwork(adjList,list(layout="extendedForceDirected", continuousUpdates=TRUE, nodeClusters=googleDataTable(clusterMat), height=height, width=width,padding=80,layout_data=googleDataTable(layoutdata)))

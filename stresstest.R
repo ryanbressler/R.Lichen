@@ -1,4 +1,4 @@
-setwd("~/Documents/code/R.Lichen")
+setwd("~/Code/R.Lichen")
 require(R.Lichen)
 
 
